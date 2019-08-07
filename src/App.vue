@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <base-spinner></base-spinner>
+
     <!-- <router-view/> -->
   </div>
 </template>
@@ -11,6 +12,11 @@ import BaseSpinner from './components/global/BaseSpinner';
 export default {
   components: {
     BaseSpinner
+  },
+  methods: {
+    showSpinner () {
+      this.$root.$emit('Spinner::show')
+    }
   }
 }
 </script>
