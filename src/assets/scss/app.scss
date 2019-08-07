@@ -7,3 +7,12 @@
 * {
     font-family: 'Poppins', sans-serif;
 }
+
+.btn-primary {
+    background-color: $featured;
+    border-color: $featured-dark;
+
+    a:hover {
+        background-color: $featured-dark;
+    }
+}

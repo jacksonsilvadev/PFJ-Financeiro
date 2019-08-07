@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-    <base-spinner/>
-    <router-view/>
+    <base-spinner />
+    <router-view />
   </div>
 </template>
 
 <script>
-import BaseSpinner from './components/global/BaseSpinner';
+import BaseSpinner from "./components/global/BaseSpinner";
 
 export default {
   components: {
     BaseSpinner
   },
-  mounted () {
+  mounted() {
     console.log(this.$firebase);
   }
-}
+};
 </script>
 
 <style lang="scss">
