@@ -20,5 +20,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+#app {
+  height: 100vh;
+  background-color: var(--darker);
+}
 </style>
