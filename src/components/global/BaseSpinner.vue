@@ -8,23 +8,22 @@
 export default {
   data() {
     return {
-      visible: false
-    }
+      visible: true
+    };
   },
-  created () {
-   this.$root.$on('Spinner::show', () => {
-     this.visible = true
-   })
+  created() {
+    this.$root.$on("Spinner::show", () => {
+      this.visible = true;
+    });
 
-   this.$root.$on('Spinner::hide', () => {
-     this.visible = false
-   })
+    this.$root.$on("Spinner::hide", () => {
+      this.visible = false;
+    });
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-
 .base-spinner {
   top: 0;
   bottom: 0;
@@ -40,5 +39,4 @@ export default {
   background-color: var(--dark-medium);
   color: var(--featured);
 }
-
 </style>

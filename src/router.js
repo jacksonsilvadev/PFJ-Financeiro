@@ -3,19 +3,32 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ './views/home/Home')
+      component: () => import( /* webpackChunkName: "home" */ './views/home/Home')
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './views/login/Login')
+      component: () => import( /* webpackChunkName: "login" */ './views/login/Login')
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+
+  if (!window.uid && to.name !== 'login') {
+    next({
+      name: 'login'
+    })
+  } else {
+    next()
+  }
+
+})
+
+export default router
