@@ -1,53 +1,54 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
+  mode: "history",
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       meta: {
-        icon: 'home',
-        title: 'Home'
+        icon: "home",
+        title: "Home"
       },
       component: () =>
-        import(/* webpackChunkName: "home" */ './views/home/Home')
+        import(/* webpackChunkName: "home" */ "./views/home/Home")
     },
     {
-      path: '/lista-gastos',
-      name: 'lista-gastos',
+      path: "/lista-gastos",
+      name: "lista-gastos",
       meta: {
-        icon: 'list-ul',
-        title: 'Listar Gastos'
+        icon: "list-ul",
+        title: "Listar Gastos"
       },
       component: () =>
         import(
-          /* webpackChunkName: "lista-gastos" */ './views/lista-gastos/ListaGastos'
+          /* webpackChunkName: "lista-gastos" */ "./views/lista-gastos/ExpensiveList"
         )
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       meta: {
-        title: 'Login'
+        title: "Login"
       },
       component: () =>
-        import(/* webpackChunkName: "login" */ './views/login/Login')
+        import(/* webpackChunkName: "login" */ "./views/login/Login")
     }
   ]
-})
+});
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - PFJ Financeiro`
-  if (!window.uid && to.name !== 'login') {
+  document.title = `${to.meta.title} - PFJ Financeiro`;
+  if (!window.uid && to.name !== "login") {
     next({
-      name: 'login'
-    })
+      name: "login"
+    });
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default router
+export default router;

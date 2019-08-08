@@ -13,7 +13,7 @@
         {{ router.meta.title }}
       </router-link>
 
-      <hr>
+      <hr />
 
       <layout-new-expense></layout-new-expense>
     </div>

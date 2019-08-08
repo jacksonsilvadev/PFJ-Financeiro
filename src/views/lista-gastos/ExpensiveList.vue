@@ -1,14 +1,23 @@
 <template>
   <div>
     <div class="months-navigation">
-      <div class="month-link" :key="i" v-for="(month,i) in groupedMonths">
+      <div
+        class="month-link"
+        @click="setActiveMonth(month)"
+        :class="{active: month.month == activeMonth.month}"
+        :key="i"
+        v-for="(month,i) in groupedMonths"
+      >
         <div class="month-label">{{ month.month }}</div>
         <div class="value-label" v-money-format="month.total"></div>
       </div>
     </div>
-  </div>
-  <div class="con">
-    <expense-list-item />
+    <div class="container">
+      <div v-if="!activeMonth.data.length">Você não cadastrou nenhum gasto neste mês</div>
+      <template v-else>
+        <expense-list-item :data="item" :key="index" v-for="(item, index) in activeMonth.data" />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -24,35 +33,59 @@ export default {
   },
   data() {
     return {
-      expenses: []
+      expenses: [],
+      activeMonth: {}
     };
   },
   created() {
     this.getData();
   },
+  mounted() {
+    this.setActiveMonth();
+  },
   computed: {
     groupedMonths() {
+      let groupedMonths = [];
+
+      const addCurrentMonth = () => {
+        groupedMonths.push({
+          data: [],
+          total: 0,
+          month: moment().format("MM/YYYY")
+        });
+      };
+
       if (this.expenses.length) {
         const months = groupBy(this.expenses, i => {
           return moment(i.createdAt).format("MM/YYYY");
         });
         const sortedMonths = Object.keys(months).sort((a, b) => {
           const pattern = "MM/YYYY HH";
-          if (moment(`${a} 01`, pattern).isBefore(moment(`${b} 01`, pattern))) {
-            return -1;
-          } else {
-            return +1;
-          }
+
+          return moment(`${a} 01`, pattern).isBefore(moment(`${b} 01`, pattern))
+            ? -1
+            : +1;
         });
 
-        return sortedMonths.map(month => ({
+        groupedMonths = sortedMonths.map(month => ({
           month,
           data: months[month],
           total: months[month].map(i => +i.value).reduce((a, c) => a + c, 0)
         }));
+
+        const lastMonth = moment(
+          groupedMonths[groupedMonths.length - 1].month,
+          "MM/YYYY"
+        );
+
+        if (!lastMonth.isSame(moment(), "month")) {
+          addCurrentMonth();
+        }
       } else {
-        return [];
+        addCurrentMonth();
       }
+
+      return groupedMonths;
     }
   },
   methods: {
@@ -63,6 +96,13 @@ export default {
         const values = snapshot.val();
         this.expenses = Object.keys(values).map(i => values[i]);
       });
+    },
+    setActiveMonth(month = null) {
+      if (month) {
+        this.activeMonth = month;
+      } else {
+        this.activeMonth = this.groupedMonths[this.groupedMonths.length - 1];
+      }
     }
   }
 };
@@ -82,10 +122,18 @@ export default {
     &:hover {
       background-color: var(--featured);
     }
+    &.active {
+      background-color: var(--featured);
+    }
     .value-label {
       color: var(--darker);
       font-size: 8px;
     }
   }
+}
+.container {
+  font-size: 15pt;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 </style>
