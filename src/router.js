@@ -1,17 +1,19 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
 Vue.use(Router)
 
 const router = new Router({
-  routes: [{
+  routes: [
+    {
       path: '/',
       name: 'home',
       meta: {
         icon: 'home',
         title: 'Home'
       },
-      component: () => import( /* webpackChunkName: "home" */ './views/home/Home')
+      component: () =>
+        import(/* webpackChunkName: "home" */ './views/home/Home')
     },
     {
       path: '/lista-gastos',
@@ -20,7 +22,10 @@ const router = new Router({
         icon: 'list-ul',
         title: 'Listar Gastos'
       },
-      component: () => import( /* webpackChunkName: "lista-gastos" */ './views/lista-gastos/ListaGastos')
+      component: () =>
+        import(
+          /* webpackChunkName: "lista-gastos" */ './views/lista-gastos/ListaGastos'
+        )
     },
     {
       path: '/login',
@@ -28,7 +33,8 @@ const router = new Router({
       meta: {
         title: 'Login'
       },
-      component: () => import( /* webpackChunkName: "login" */ './views/login/Login')
+      component: () =>
+        import(/* webpackChunkName: "login" */ './views/login/Login')
     }
   ]
 })
@@ -42,7 +48,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-
 })
 
 export default router
