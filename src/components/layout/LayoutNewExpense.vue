@@ -56,7 +56,14 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="closeModal()">Fechar</button>
-              <button type="submit" class="btn btn-primary">Adicionar</button>
+              <button type="submit" class="btn btn-primary">
+                <template v-if="loading" :disabled="loading">
+                  <i class="fa fa-spin fa-spinner"></i>
+                  Adicionando...
+                </template>
+                <template v-else>Adicionar</template>
+                Adicionar
+              </button>
             </div>
           </div>
         </div>
@@ -71,6 +78,7 @@ export default {
   data() {
     return {
       showModal: false,
+      loading: false,
       form: {
         description: "",
         value: "",
@@ -94,7 +102,7 @@ export default {
   methods: {
     async submit() {
       this.$root.$emit("Spinner::show");
-
+      this.loading = true;
       try {
         const ref = this.$firebase.database().ref(window.uid);
         const id = ref.push().key;
@@ -117,15 +125,29 @@ export default {
 
         ref.child(id).set(payload, err => {
           if (err) {
-            console.error(err);
+            this.$root.$emit("Notification::show", {
+              type: "danger",
+              message: "Não foi possível inserir o  gasto, tente novamente."
+            });
+            this.loading = false;
           } else {
+            this.$root.$emit("Notification::show", {
+              type: "success",
+              message: "Gasto inserido com sucesso."
+            });
             this.closeModal();
+            this.loading = false;
           }
         });
       } catch (err) {
-        console.error(err);
+        this.$root.$emit("Notification::show", {
+          type: "danger",
+          message: "Não foi possível inserir o  gasto, tente novamente."
+        });
+        this.loading = false;
       } finally {
         this.$root.$emit("Spinner::hide");
+        this.loading = false;
       }
     },
     closeModal() {

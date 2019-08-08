@@ -25,6 +25,7 @@
 <script>
 import LayoutLogout from "./LayoutLogout";
 import LayoutNewExpense from "./LayoutNewExpense";
+
 export default {
   components: {
     LayoutLogout,
