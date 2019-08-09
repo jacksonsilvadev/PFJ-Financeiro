@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    <base-spinner />
-    <layout-notification></layout-notification>
-    <div class="container-fluid" v-if="logged">
-      <div class="row">
-        <div class="col-2 navigation-sidebar">
-          <h1 class="app-title">PFJ Financeiro</h1>
-          <layout-navigation />
-        </div>
-        <div class="col">
-          <router-view />
-        </div>
-      </div>
-    </div>
+    <v-app id="inspire">
+      <LayoutNavigation v-if="logged"></LayoutNavigation>
 
-    <router-view v-else />
+      <v-content>
+        <v-container fluid fill-height>
+          <router-view></router-view>
+        </v-container>
+      </v-content>
+
+      <v-footer app>
+        <span>&copy; 2019</span>
+      </v-footer>
+    </v-app>
   </div>
 </template>
 
@@ -31,17 +29,20 @@ export default {
     LayoutNavigation,
     LayoutNotification
   },
-  data() {
-    return {
-      logged: false
-    };
+  data: () => ({
+    drawer: null,
+    logged: false
+  }),
+  created() {
+    console.log(this.$vuetify);
+    this.$vuetify.theme.dark = true;
   },
   mounted() {
     this.$firebase.auth().onAuthStateChanged(user => {
       window.uid = user ? user.uid : null;
       this.logged = !!user;
 
-      this.$router.push({ name: window.uid ? "home" : "login" }, () => {});
+      // this.$router.push({ name: window.uid ? "home" : "login" }, () => {});
 
       setTimeout(() => {
         this.$root.$emit("Spinner::hide");
