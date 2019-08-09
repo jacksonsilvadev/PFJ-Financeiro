@@ -12,11 +12,14 @@
         <div class="value-label" v-money-format="month.total"></div>
       </div>
     </div>
+    <div class="container-group">
     <div class="container">
-      <div v-if="!activeMonth.data.length">Você não cadastrou nenhum gasto neste mês</div>
+      <div v-if="activeMonth.data && !activeMonth.data.length">Você não cadastrou nenhum gasto neste mês</div>
       <template v-else>
         <expense-list-item :data="item" :key="index" v-for="(item, index) in activeMonth.data" />
       </template>
+    </div>
+
     </div>
   </div>
 </template>
@@ -131,9 +134,17 @@ export default {
     }
   }
 }
+
+.container-group {
+  width: calc(100% + 30px);
+  overflow: hidden auto;
+  height: calc(100vh - 66px);
+}
+
 .container {
   font-size: 15pt;
   padding-top: 15px;
   padding-bottom: 15px;
+
 }
 </style>
