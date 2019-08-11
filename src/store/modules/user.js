@@ -18,7 +18,23 @@ export default {
       return state.error;
     }
   },
-  mutations: {},
+  mutations: {
+    setUser (state, payload) {
+      return state.user = payload
+    },
+
+    removeUser (state) {
+      return state.user = null
+    },
+
+    setStatus (state, payload) {
+     return state.status = payload
+    },
+
+    setError (state, payload) {
+      return state.error = payload
+    }
+  },
   actions: {
     signUpAction({
       commit
