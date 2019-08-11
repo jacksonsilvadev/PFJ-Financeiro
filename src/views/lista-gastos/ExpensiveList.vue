@@ -18,6 +18,7 @@
       <template v-else>
         <expense-list-item :data="item" :key="index" v-for="(item, index) in activeMonth.data" />
       </template>
+
     </div>
 
     </div>
