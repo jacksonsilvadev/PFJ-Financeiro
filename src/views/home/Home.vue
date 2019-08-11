@@ -1,27 +1,25 @@
 <template>
-  <div class="home">
-    <div class="row">
-      <div class="col-6 home-box">
-        <small>Você gastou</small>
-        <div class="money" v-money-format="totals.totalSpent"></div>
-        <small>em 89 compras</small>
-      </div>
-      <div class="col-6 home-box">
-        <small>A média de gastos é de</small>
-        <div class="money" v-money-format="totals.average"></div>
-      </div>
-      <div class="col-6 home-box">
-        <small>O maior gasto foi de</small>
-        <div class="money" v-money-format="totals.biggest.value"></div>
-        <small v-date-format="totals.biggest.createdAt"></small>
-      </div>
-      <div class="col-6 home-box">
-        <small>O menor gasto foi de</small>
-        <div class="money" v-money-format="totals.lowest.value"></div>
-        <small v-date-format="totals.lowest.createdAt"></small>
-      </div>
-    </div>
-  </div>
+  <v-layout wrap>
+    <v-flex xs6 class="home-box">
+      <small>Você gastou</small>
+      <div class="money" v-money-format="totals.totalSpent"></div>
+      <small>em 89 compras</small>
+    </v-flex>
+    <v-flex xs6 class="home-box">
+      <small>A média de gastos é de</small>
+      <div class="money" v-money-format="totals.average"></div>
+    </v-flex>
+    <v-flex xs6 class="home-box">
+      <small>O maior gasto foi de</small>
+      <div class="money" v-money-format="totals.biggest.value"></div>
+      <small v-date-format="totals.biggest.createdAt"></small>
+    </v-flex>
+    <v-flex xs6 class="home-box">
+      <small>O menor gasto foi de</small>
+      <div class="money" v-money-format="totals.lowest.value"></div>
+      <small v-date-format="totals.lowest.createdAt"></small>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -73,31 +71,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home {
-  padding: 15px;
-  .home-box {
-    width: 100%;
-    display: flex;
-    font-size: 30px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: calc(50vh - 15px);
-    border: 1px solid var(--dark-medium);
-    small {
-      font-size: 1.3rem;
-    }
-    .money {
-      color: var(--featured);
-    }
-    &:nth-child(2),
-    &:nth-child(4) {
-      border-left: none;
-    }
-    &:nth-child(3),
-    &:nth-child(4) {
-      border-top: none;
-    }
+.home-box {
+  width: 100%;
+  display: flex;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid var(--dark-medium);
+  small {
+    font-size: 1.3rem;
+  }
+  .money {
+    color: var(--featured);
+  }
+  &:nth-child(2),
+  &:nth-child(4) {
+    border-left: none;
+  }
+  &:nth-child(3),
+  &:nth-child(4) {
+    border-top: none;
   }
 }
 </style>

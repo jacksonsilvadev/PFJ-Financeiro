@@ -1,28 +1,28 @@
 <template>
-  <div>
-    <div class="months-navigation">
-      <div
-        class="month-link"
-        @click="setActiveMonth(month)"
-        :class="{active: month.month == activeMonth.month}"
-        :key="i"
-        v-for="(month,i) in groupedMonths"
-      >
-        <div class="month-label">{{ month.month }}</div>
-        <div class="value-label" v-money-format="month.total"></div>
+  <v-layout wrap>
+    <v-flex xs12>
+      <div class="months-navigation">
+        <div
+          class="month-link"
+          @click="setActiveMonth(month)"
+          :class="{active: month.month == activeMonth.month}"
+          :key="i"
+          v-for="(month,i) in groupedMonths"
+        >
+          <div class="month-label">{{ month.month }}</div>
+          <div class="value-label" v-money-format="month.total"></div>
+        </div>
       </div>
-    </div>
-    <div class="container-group">
-    <div class="container">
-      <div v-if="activeMonth.data && !activeMonth.data.length">Você não cadastrou nenhum gasto neste mês</div>
-      <template v-else>
-        <expense-list-item :data="item" :key="index" v-for="(item, index) in activeMonth.data" />
-      </template>
-
-    </div>
-
-    </div>
-  </div>
+      <div class="container-group">
+        <div
+          v-if="activeMonth.data && !activeMonth.data.length"
+        >Você não cadastrou nenhum gasto neste mês</div>
+        <template v-else>
+          <expense-list-item :data="item" :key="index" v-for="(item, index) in activeMonth.data" />
+        </template>
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -146,6 +146,5 @@ export default {
   font-size: 15pt;
   padding-top: 15px;
   padding-bottom: 15px;
-
 }
 </style>

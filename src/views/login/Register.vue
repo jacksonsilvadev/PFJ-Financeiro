@@ -1,7 +1,7 @@
 <template>
   <v-layout align-center justify-center>
     <v-flex xs12>
-      <form class="form-login" @submit.prevent="doLogin()">
+      <form class="form-login" @submit.prevent="doRegister()">
         <div class="card">
           <div class="card-header">
             <h1 class="text-center mb-0">PFJ Financeiro</h1>
@@ -26,13 +26,21 @@
                 placeholder="Senha"
               />
             </div>
-            <v-layout justify-space-between>
-              <v-btn color="teal" @click="registerForm()" outlined>Registrar</v-btn>
+            <div class="form-group">
+              <input
+                required
+                type="password"
+                v-model="passwordConfirmed"
+                class="form-control"
+                placeholder="Confirmar senha"
+              />
+            </div>
+            <v-layout justify-center>
               <template v-if="loading">
                 <v-btn color="warning" loading></v-btn>
               </template>
               <template v-else>
-                <v-btn color="warning" type="submit">Entrar</v-btn>
+                <v-btn color="warning" type="submit">Registrar-se</v-btn>
               </template>
             </v-layout>
           </div>
@@ -48,24 +56,25 @@ export default {
     return {
       loading: false,
       email: "",
-      password: ""
+      password: "",
+      passwordConfirmed: ""
     };
   },
   methods: {
-    registerForm() {
-      this.$router.push({ name: "register" });
-    },
-    async doLogin() {
+    async doRegister() {
       this.loading = true;
       const { email, password } = this;
 
       try {
         const res = await this.$firebase
           .auth()
-          .signInWithEmailAndPassword(email, password);
-
-        window.uid = res.user.uid;
-
+          .createUserWithEmailAndPassword(email, password)
+          .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(erroCode);
+          });
         this.$router.push({ name: "home" });
       } catch (err) {
         let message = "";
@@ -78,7 +87,7 @@ export default {
             message = "Senha inválida";
             break;
           default:
-            message = "Não foi possível fazer login, tente novamente.";
+            message = "Não foi possível fazer o cadastro, tente novamente.";
         }
 
         this.$root.$emit("Notification::show", {
