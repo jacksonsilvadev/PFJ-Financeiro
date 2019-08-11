@@ -50,12 +50,12 @@ export default {
         })
         .catch((error) => {
           commit('setStatus', 'failure')
-          commit('setError', error.message)
+          commit('setError', error.code)
         })
     },
 
     signInAction ({ commit }, payload) {
-      firebase.auth().signInWithEmailAndPassword(payload.email. payload.password)
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then((res) => {
         commit('setUser', res.user.uid)
         commit('setStatus', 'success')
@@ -63,7 +63,7 @@ export default {
       })
       .catch((error) => {
         commit('setStatus', 'failure')
-        commit('setError', error.message)
+        commit('setError', error.code)
       })
     },
 
@@ -76,7 +76,8 @@ export default {
         })
         .catch((error) => {
           commit('setStatus', 'failure')
-          commit('setError', error.message)
+          commit('setError', error.code)
+
         })
     }
   }

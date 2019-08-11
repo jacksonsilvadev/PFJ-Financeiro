@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <LayoutNavigation v-if="logged"></LayoutNavigation>
+      <LayoutNavigation ></LayoutNavigation>
 
       <v-content>
         <v-container fluid fill-height>
@@ -31,10 +31,9 @@ export default {
   },
   data: () => ({
     drawer: null,
-    logged: false
+    logged: true
   }),
   created() {
-    console.log(this.$vuetify);
     this.$vuetify.theme.dark = true;
   },
   mounted() {
@@ -49,13 +48,13 @@ export default {
       }, 300);
     });
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (window.uid) {
-        vm.$router.push({ name: "home" });
-      }
-    });
-  }
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     if (window.uid) {
+  //       vm.$router.push({ name: "home" });
+  //     }
+  //   });
+  // }
 };
 </script>
 

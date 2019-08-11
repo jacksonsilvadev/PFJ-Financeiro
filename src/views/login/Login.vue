@@ -57,12 +57,16 @@ export default {
     },
     async doLogin() {
       this.loading = true;
+
       const user = {
         email: this.email,
         password: this.password
       }
 
       await this.$store.dispatch('signInAction', user)
+
+      this.$router.push({ name: "home" });
+
 
       // try {
       //   const res = await this.$firebase

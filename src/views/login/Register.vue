@@ -80,36 +80,26 @@ export default {
 
      await this.$store.dispatch('signUpAction', user)
 
-      // try {
-      //   const res = await this.$firebase
-      //     .auth()
-      //     .createUserWithEmailAndPassword(email, password)
-      //     .catch(function(error) {
-      //       // Handle Errors here.
-      //       var errorCode = error.code;
-      //       var errorMessage = error.message;
-      //       console.log(erroCode);
-      //     });
-      //   this.$router.push({ name: "home" });
-      // } catch (err) {
-      //   let message = "";
+      // console.log(this.$store.user, this.$store)
 
-      //   switch (err.code) {
-      //     case "auth/user-not-found":
-      //       message = "Não possível localizar o usuário.";
-      //       break;
-      //     case "auth/wrong-password":
-      //       message = "Senha inválida";
-      //       break;
-      //     default:
-      //       message = "Não foi possível fazer o cadastro, tente novamente.";
-      //   }
+      const status = this.$store.state.user.status
 
-      //   this.$root.$emit("Notification::show", {
-      //     type: "danger",
-      //     message: message
-      //   });
-      // }
+        if(status == 'failure') {
+         const err = this.$store.user.error
+
+          let message = "Não foi possível fazer o cadastro, tente novamente.";
+
+
+
+        this.$root.$emit("Notification::show", {
+          type: "danger",
+          message: message
+        });
+        } else {
+          this.$router.push({name: 'home'})
+        }
+
+
       this.loading = false;
     },
     validate () {

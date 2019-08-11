@@ -11,7 +11,7 @@ export default {
     async logout() {
       this.$root.$emit("Spinner::show");
 
-      await this.$firebase.auth().signOut();
+      await this.$store.dispatch('signOutAction')
 
       this.$router.push({ name: "login" });
       this.$root.$emit("Spinner::hide");

@@ -58,6 +58,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - PFJ Financeiro`;
+
   const user = firebase.auth().currentUser;
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
