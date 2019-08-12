@@ -1,70 +1,70 @@
-import Vue from "vue";
-import Router from "vue-router";
-import firebase from "firebase";
+import Vue from 'vue';
+import Router from 'vue-router';
+import firebase from 'firebase';
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
-  mode: "history",
+  mode: 'history',
   routes: [
     {
-      path: "*",
-      redirect: "/login"
+      path: '*',
+      redirect: '/login'
     },
     {
-      path: "/",
-      name: "home",
+      path: '/',
+      name: 'home',
       meta: {
-        icon: "home",
-        title: "Home",
+        icon: 'home',
+        title: 'Home',
         requiresAuth: true
       },
       component: () =>
-        import(/* webpackChunkName: "home" */ "./views/home/Home")
+        import(/* webpackChunkName: "home" */ './views/home/Home')
     },
     {
-      path: "/lista-gastos",
-      name: "lista-gastos",
+      path: '/lista-gastos',
+      name: 'lista-gastos',
       meta: {
-        icon: "list-ul",
-        title: "Listar Gastos",
+        icon: 'list-ul',
+        title: 'Listar Gastos',
         requiresAuth: true
       },
       component: () =>
         import(
-          /* webpackChunkName: "lista-gastos" */ "./views/lista-gastos/ExpensiveList"
+          /* webpackChunkName: "lista-gastos" */ './views/lista-gastos/ExpensiveList'
         )
     },
     {
-      path: "/login",
-      name: "login",
+      path: '/login',
+      name: 'login',
       meta: {
-        title: "Login"
+        title: 'Login'
       },
       component: () =>
-        import(/* webpackChunkName: "login" */ "./views/login/Login")
+        import(/* webpackChunkName: "login" */ './views/login/Login')
     },
     {
-      path: "/register",
-      name: "register",
+      path: '/register',
+      name: 'register',
       meta: {
-        title: "Register"
+        title: 'Register'
       },
       component: () =>
-        import(/* webpackChunkName: "login" */ "./views/login/Register")
+        import(/* webpackChunkName: "login" */ './views/login/Register')
     }
   ]
-});
+})
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - PFJ Financeiro`;
+  document.title = `${to.meta.title} - PFJ Financeiro`
 
-  const user = firebase.auth().currentUser;
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const user = firebase.auth().currentUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
-  if (requiresAuth && !user) next("login");
-  else if (!requiresAuth && user) next("home");
-  else next();
-});
+  if (requiresAuth && !user) next('login')
+  else if (!requiresAuth && user) next('home')
+  else next()
+})
 
-export default router;
+export default router

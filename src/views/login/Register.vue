@@ -1,116 +1,105 @@
 <template>
   <v-layout align-center justify-center>
     <v-flex xs6>
-     <v-form
-          ref="form"
-          v-model="valid"
-          lazy-validation
-          >
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-          ></v-text-field>
+      <v-card max-width="450" class="mx-auto" rounded>
+        <v-card-title class="text-center">Register</v-card-title>
+        <v-card-text>
+          <v-form @submit.prevent="submit" ref="form">
+            <v-text-field
+              v-model="email"
+              v-validate="'required|email'"
+              :error-messages="errors.collect('email')"
+              label="E-mail"
+              required
+              data-vv-name="email"
+            ></v-text-field>
 
-          <v-text-field
-            v-model="password"
-            :rules="passwordRules"
-            label="Password"
-            required
+            <v-text-field
+              v-model.trim="password"
+              label="Password"
+              required
+              data-vv-name="password"
+              type="password"
+              v-validate="'required|min:6'"
+              :error-messages="errors.collect('password')"
+              ref="password"
+            ></v-text-field>
 
-            :type="passwordShow ? 'text' : 'password'"
-             @click:append="passwordShow = !passwordShow"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="confirmPassword"
-            label="confirm Password"
-            :rules="passwordRules"
-            required
-            :type="confirmPasswordShow ? 'text' : 'password'"
-             @click:append="confirmPasswordShow = !confirmPasswordShow"
-          ></v-text-field>
-
-          <v-btn
-            :disabled="!valid"
-            color="success"
-            @click="validate"
-          >
-            Register
-          </v-btn>
-
-          <v-btn
-            color="error"
-            @click="reset"
-          >
-            Reset Form
-          </v-btn>
-        </v-form>
+            <v-text-field
+              v-model.trim="confirmPassword"
+              label="Confirm password"
+              required
+              type="password"
+              data-vv-name="confirmPassword"
+              v-validate="'required|min:6|confirmed:password'"
+              :error-messages="errors.collect('confirmPassword')"
+            ></v-text-field>
+            <v-layout justify-space-between>
+              <v-btn color="error" @click="reset">Reset Form</v-btn>
+              <v-btn color="success" type="submit">Register</v-btn>
+            </v-layout>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 export default {
- data: () => ({
-    passwordShow: false,
-    confirmPasswordShow: false,
-    valid: true,
-    email: '',
-    emailRules: [
-      v => !!v || 'Preencha um e-mail',
-      v => /.+@.+/.test(v) || 'E-mail inválido'
-    ],
-    password: '',
-    confirmPassword: '',
-    passwordRules: [
-      v => !!v || 'Uma senha é obrigatória',
-      v => v.length > 6 || 'Sua senha deve conter mais que 6 caracteres'
-    ],
-
+  data: () => ({
+    email: "",
+    password: "",
+    confirmPassword: ""
   }),
+
   methods: {
+    submit() {
+      this.$validator.validateAll().then(result => {
+        console.log(result);
+        if (result) {
+          // eslint-disable-next-line
+
+          return this.doRegister();
+        }
+
+        alert("Correct them errors!");
+      });
+    },
+    mounted() {
+      this.$validator.localize("pt", this.dictionary);
+    },
     async doRegister() {
       this.loading = true;
       const user = {
         email: this.email,
         password: this.password
-      }
+      };
 
-     await this.$store.dispatch('signUpAction', user)
+      await this.$store.dispatch("signUpAction", user);
 
       // console.log(this.$store.user, this.$store)
 
-      const status = this.$store.state.user.status
+      const status = this.$store.state.user.status;
 
-        if(status == 'failure') {
-         const err = this.$store.user.error
+      if (status == "failure") {
+        const err = this.$store.user.error;
 
-          let message = "Não foi possível fazer o cadastro, tente novamente.";
-
-
+        let message = "Não foi possível fazer o cadastro, tente novamente.";
 
         this.$root.$emit("Notification::show", {
           type: "danger",
           message: message
         });
-        } else {
-          this.$router.push({name: 'home'})
-        }
-
+      } else {
+        this.$router.push({ name: "home" });
+      }
 
       this.loading = false;
     },
-    validate () {
-      if (this.$refs.form.validate()) {
-        this.snackbar = true
-        this.doRegister()
-      }
-    },
-    reset () {
-      this.$refs.form.reset()
-    },
+    reset() {
+      this.$refs.form.reset();
+    }
   }
 };
 </script>
