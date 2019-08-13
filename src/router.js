@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import firebase from 'firebase';
+import store from './store/index'
 
 Vue.use(Router)
 
@@ -59,9 +60,10 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - PFJ Financeiro`
 
-  const user = firebase.auth().currentUser
+  const user = store.state.user.uid
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
+  debugger;
+  console.log(user, requiresAuth)
   if (requiresAuth && !user) next('login')
   else if (!requiresAuth && user) next('home')
   else next()

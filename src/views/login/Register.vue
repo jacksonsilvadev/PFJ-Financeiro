@@ -1,8 +1,8 @@
 <template>
   <v-layout align-center justify-center>
     <v-flex xs6>
-      <v-card max-width="450" class="mx-auto" rounded>
-        <v-card-title class="text-center">Register</v-card-title>
+      <v-card max-width="450" class="mx-auto text-center" rounded>
+        <v-card-title>Register</v-card-title>
         <v-card-text>
           <v-form @submit.prevent="submit" ref="form">
             <v-text-field
@@ -56,14 +56,10 @@ export default {
   methods: {
     submit() {
       this.$validator.validateAll().then(result => {
-        console.log(result);
         if (result) {
-          // eslint-disable-next-line
 
           return this.doRegister();
         }
-
-        alert("Correct them errors!");
       });
     },
     mounted() {

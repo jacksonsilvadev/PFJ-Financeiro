@@ -3,7 +3,7 @@ import firebase from "firebase";
 export default {
   namspaced: true,
   state: {
-    user: null,
+    uid: null,
     status: null,
     error: null
   },
@@ -12,7 +12,7 @@ export default {
       return state.status;
     },
     user(state) {
-      return state.user;
+      return state.uid;
     },
     error(state) {
       return state.error;
@@ -20,11 +20,11 @@ export default {
   },
   mutations: {
     setUser (state, payload) {
-      return state.user = payload
+      return state.uid = payload
     },
 
     removeUser (state) {
-      return state.user = null
+      return state.uid = null
     },
 
     setStatus (state, payload) {
