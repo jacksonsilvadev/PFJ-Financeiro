@@ -6,7 +6,7 @@ import "./utils/directives";
 import vuetify from "./plugins/vuetify";
 import store from "./store/index";
 import VeeValidate from "vee-validate";
-import router from "./router";
+import router from "./router/router.js";
 
 Vue.use(VeeValidate);
 
